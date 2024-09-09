@@ -1,0 +1,1 @@
+export const local_upload = "http://localhost:3000/upload"
