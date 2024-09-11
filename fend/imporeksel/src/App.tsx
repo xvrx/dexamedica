@@ -26,7 +26,7 @@ function App() {
     errorNotice? : string, 
   }
 
-  // state: data kostumer
+  // state utk kostumer:  jika fetch ke server berhasil, file excel yg telah konversi ke json akan disimpan di state ini
   const [costumerContainer, setcostumerContainer] = useState<costumer[]>([])
 
 
@@ -36,7 +36,7 @@ function App() {
   // state: data file yang akan disubmit : setelah input HTML file akan ditambahkan ke state ini
   const [files, setFiles] = useState<File[] | []>([])
 
-  // status display tabel : jika fetch ke server berhasil, file excel yg telah konversi ke json akan disimpan di state ini
+  //  display tabel : jika fetch berhasil, display tabel kostumer
   const [displayTab, setdisplayTab] = useState<boolean>(false)
 
 
@@ -66,7 +66,10 @@ function App() {
   // jika tombol x diklik, remove file dari list
   function removeList (idx : number) : void {
     console.log(idx)
+    // ambil parameter dari htmlInput event, return file yang indexnya tidak diklik
     const filtered = files.filter((_x,i) => i !== idx)
+
+    // set state baru untuk Files yang tidak diklik
     setFiles(filtered)
   }
 
@@ -75,7 +78,7 @@ async function sendSample() {
   console.log(files)
   // aktifkan overlay loading sebelum fetch
   setloading(true)
-
+  
   if (files.length > 0) {
     console.log('Uploading file...');
 
@@ -149,10 +152,13 @@ async function sendSample() {
                 <div className="file-list-container">
                     <div className="file-list">
                         {
+                          {/*jika terdapat files yang telah diselect*/}
                           (files?.length > 0 && !displayTab ) ?
                           <div>
                             selected files :
                             <br/>
+
+                            {/*map state files dalam bentuk html */}
                             {files.map((file, idx) => {return(
                               <div className="file" key={idx}>
                                 <div className="file-name">
